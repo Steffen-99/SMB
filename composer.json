@@ -1,11 +1,11 @@
 {
-	"name"             : "icewind/smb",
-	"description"      : "php wrapper for smbclient and libsmbclient-php",
+	"name"             : "sgrabaum/smb",
+	"description"      : "php wrapper for smbclient and libsmbclient-php forked by icewind1991/SMB",
 	"license"          : "MIT",
 	"authors"          : [
 		{
-			"name" : "Robin Appelman",
-			"email": "icewind@owncloud.com"
+			"name" : "Steffen Grabaum",
+			"email": "Steffen-99@gmx.de"
 		}
 	],
 	"require"          : {
