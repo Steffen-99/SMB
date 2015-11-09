@@ -1,6 +1,6 @@
 <?php
 
-namespace Icewind\Providers\Flysystem;
+namespace Icewind\SMB\Providers\Flysystem;
 
 use Icewind\SMB\IShare;
 use Icewind\SMB\IFileInfo;
