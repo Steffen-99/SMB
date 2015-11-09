@@ -18,7 +18,7 @@ class RawConnection {
 	/**
 	 * @var string[]
 	 */
-	private $env;
+	private $env = [];
 
 	/**
 	 * @var resource[] $pipes

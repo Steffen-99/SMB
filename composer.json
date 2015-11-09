@@ -10,6 +10,7 @@
 	],
 	"require"          : {
 		"php": ">=5.3",
+	  	"league/flysystem": "~1.0",
 		"icewind/streams": "0.2.*"
 	},
 	"require-dev": {
