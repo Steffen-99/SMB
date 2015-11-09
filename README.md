@@ -110,6 +110,23 @@ fwrite($fh, 'bar');
 fclose($fh);
 ```
 
+### Using Localization
+
+```php
+<?php
+use Icewind\SMB\Server;
+
+require('vendor/autoload.php');
+
+$server = new Server('localhost', 'test', 'test');
+$oServer->setConnectionEnv( [ 'LC_ALL' => array_get( $config, 'locale' ), 'LANG' => array_get( $config, 'locale' ) ] ); // $config from config array of application
+$share = $server->getShare('test');
+
+$fh = $share->write('test.txt');
+fwrite($fh, 'bar');
+fclose($fh);
+```
+
 ### Using libsmbclient-php ###
 
 Install [libsmbclient-php](https://github.com/eduardok/libsmbclient-php)
