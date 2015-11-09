@@ -34,6 +34,9 @@ class Server {
 	 */
 	protected $workgroup;
 
+	/** @var array */
+	protected $env = [ ];
+
 	/**
 	 * Check if the smbclient php extension is available
 	 *
@@ -54,6 +57,25 @@ class Server {
 		$this->user = $user;
 		$this->workgroup = $workgroup;
 		$this->password = $password;
+	}
+
+	/**
+	 * Setting here environment data to give connection application specific configurations
+	 *
+	 * posible keys:
+	 * LC_ALL	= default 'en_US.UTF-8', change this to get localisations (germany like "de_DE-UTF-8")
+	 * LANG		= default 'en_US.UTF-8', change this to get localisations (germany like "de_DE-UTF-8")
+	 *
+	 * @param array $env
+	 */
+	public function setConnectionEnv( array $env )
+	{
+		$this->env = $env;
+	}
+
+	public function getConnectionEnv()
+	{
+		return $this->env;
 	}
 
 	/**
@@ -117,7 +139,7 @@ class Server {
 		$workgroupArgument = ($this->workgroup) ? ' -W ' . escapeshellarg($this->workgroup) : '';
 		$command = Server::CLIENT . $workgroupArgument . ' --authentication-file=/proc/self/fd/3' .
 			' -gL ' . escapeshellarg($this->getHost());
-		$connection = new RawConnection($command);
+		$connection = new RawConnection($command, $this->env);
 		$connection->writeAuthentication($this->getUser(), $this->getPassword());
 		$output = $connection->readAll();
 

@@ -4,8 +4,12 @@
 	"license"          : "MIT",
 	"authors"          : [
 		{
-			"name" : "Steffen Grabaum",
-			"email": "Steffen-99@gmx.de"
+		  "name" : "Robin Appelman",
+		  "email": "icewind@owncloud.com"
+		},
+		{
+		  "name" : "Steffen Grabaum",
+		  "email": "Steffen-99@gmx.de"
 		}
 	],
 	"require"          : {

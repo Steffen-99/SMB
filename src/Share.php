@@ -60,7 +60,7 @@ class Share extends AbstractShare {
 			$workgroupArgument,
 			escapeshellarg('//' . $this->server->getHost() . '/' . $this->name)
 		);
-		$this->connection = new Connection($command);
+		$this->connection = new Connection($command, $this->server->getConnectionEnv());
 		$this->connection->writeAuthentication($this->server->getUser(), $this->server->getPassword());
 		if (!$this->connection->isValid()) {
 			throw new ConnectionException();

@@ -48,13 +48,13 @@ class RawConnection {
 			4 => array('pipe', 'r'), // child reads from fd#4
 			5 => array('pipe', 'w')  // child writes to fd#5
 		);
-		setlocale(LC_ALL, Server::LOCALE);
-		$env = array_merge($this->env, array(
-			'CLI_FORCE_INTERACTIVE' => 'y', // Needed or the prompt isn't displayed!!
+//		setlocale(LC_ALL, Server::LOCALE); // TODO Check if needed
+		$env = array_merge( array(
 			'LC_ALL' => Server::LOCALE,
-			'LANG' => Server::LOCALE,
-			'COLUMNS' => 8192 // prevent smbclient from line-wrapping it's output
-		));
+			'LANG'   => Server::LOCALE,
+		), $this->env );
+		$env['CLI_FORCE_INTERACTIVE'] = 'y'; // Needed or the prompt isn't displayed!!
+		$env['COLUMNS'] = 8192; // prevent smbclient from line-wrapping it's output
 		$this->process = proc_open($this->command, $descriptorSpec, $this->pipes, '/', $env);
 		if (!$this->isValid()) {
 			throw new ConnectionException();
