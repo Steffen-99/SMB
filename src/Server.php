@@ -140,7 +140,7 @@ class Server {
 		$command = Server::CLIENT . $workgroupArgument . ' --authentication-file=/proc/self/fd/3' .
 			' -gL ' . escapeshellarg($this->getHost());
 		$connection = new RawConnection($command, $this->env);
-		$connection->writeAuthentication($this->getUser(), $this->getPassword());
+		$connection->writeAuthentication($this->getUser(), $this->getPassword(), $this->getWorkgroup());
 		$output = $connection->readAll();
 
 		$line = $output[0];

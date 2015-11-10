@@ -131,12 +131,18 @@ class RawConnection {
 		return $this->pipes[5];
 	}
 
-	public function writeAuthentication($user, $password) {
-		$auth = ($password === false)
-			? "username=$user"
-			: "username=$user\npassword=$password";
-
-		if (fwrite($this->getAuthStream(), $auth) === false) {
+	public function writeAuthentication($user, $password, $workgroupOrDomain = null) {
+		$auth = array();
+		if ( is_string( $workgroupOrDomain ) ) {
+			$auth[] = "domain=$workgroupOrDomain";
+		}
+		if ( is_string( $user ) ) {
+			$auth[] = "username=$user";
+		}
+		if ( is_string( $password ) ) {
+			$auth[] = "password=$password";
+		}
+		if (fwrite($this->getAuthStream(), implode("\n", $auth)) === false) {
 			fclose($this->getAuthStream());
 			return false;
 		}
