@@ -119,8 +119,8 @@ use Icewind\SMB\Server;
 require('vendor/autoload.php');
 
 $server = new Server('localhost', 'test', 'test');
-$oServer->setConnectionEnv( [ 'LC_ALL' => array_get( $config, 'locale' ), 'LANG' => array_get( $config, 'locale' ) ] ); // $config from config array of application
-$share = $server->getShare('test');
+$oServer->setConnectionEnv( [ 'LC_ALL' => 'de_DE.UTF-8', 'LANG' => 'de_DE.UTF-8' ] ); // de_DE.UTF-8 = german language and files with german characters
+$share = $server->getShare('test', '?? M d H:i:s Y T'); //  Format "?? M d H:i:s Y T" is german language date time result of smbclient, need for parser to get timestamp
 
 $fh = $share->write('test.txt');
 fwrite($fh, 'bar');
