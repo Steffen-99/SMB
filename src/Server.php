@@ -178,10 +178,11 @@ class Server {
 
 	/**
 	 * @param string $name
+	 * @param null|string $parseTimeFormat give format of date parsing from smbclient allinfo return
 	 * @return \Icewind\SMB\IShare
 	 */
-	public function getShare($name) {
-		return new Share($this, $name);
+	public function getShare($name, $parseTimeFormat = null) {
+		return new Share($this, $name,$parseTimeFormat);
 	}
 
 	/**
