@@ -21,11 +21,15 @@ class Parser {
 	 */
 	protected $timeZoneProvider;
 
+	protected $parseTimeFormat = null;
+
 	/**
 	 * @param \Icewind\SMB\TimeZoneProvider $timeZoneProvider
+	 * @param string|null $parseTimeFormat give format of date parsing from smbclient allinfo return
 	 */
-	public function __construct(TimeZoneProvider $timeZoneProvider) {
+	public function __construct(TimeZoneProvider $timeZoneProvider, $parseTimeFormat = null ) {
 		$this->timeZoneProvider = $timeZoneProvider;
+		$this->parseTimeFormat = $parseTimeFormat;
 	}
 
 	public function checkForError($output, $path) {
@@ -98,7 +102,7 @@ class Parser {
 			$value = isset($words[1]) ? $words[1] : '';
 			$value = trim($value);
 			if ($name === 'write_time') {
-				$mtime = strtotime($value);
+				$mtime = $this->parseDateTime($value);
 			} else if ($name === 'attributes') {
 				$mode = hexdec(substr($value, 1, -1));
 			} else if ($name === 'stream') {
@@ -113,6 +117,23 @@ class Parser {
 		);
 	}
 
+	/**
+	 * parse date time by given format (for Localization)
+	 * @param $value
+	 * @return \DateTime|int
+	 */
+	protected function parseDateTime( $value )
+	{
+		if ( !empty( $this->parseTimeFormat ) ) {
+			$return = date_create_from_format($this->parseTimeFormat, $value );
+			if ( $return !== false ) {
+				return $return;
+			}
+		}
+
+		return strtotime( $value ); // previous version
+	}
+
 	public function parseDir($output, $basePath) {
 		//last line is used space
 		array_pop($output);
@@ -124,7 +145,7 @@ class Parser {
 				list(, $name, $mode, $size, $time) = $matches;
 				if ($name !== '.' and $name !== '..') {
 					$mode = $this->parseMode($mode);
-					$time = strtotime($time . ' ' . $this->timeZoneProvider->get());
+					$time = $this->parseDateTime( strtotime($time . ' ' . $this->timeZoneProvider->get()) );
 					$content[] = new FileInfo($basePath . '/' . $name, $name, $size, $time, $mode);
 				}
 			}

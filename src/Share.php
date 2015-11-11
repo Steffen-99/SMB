@@ -37,12 +37,13 @@ class Share extends AbstractShare {
 	/**
 	 * @param Server $server
 	 * @param string $name
+	 * @param null|string $parseTimeFormat give format of date parsing from smbclient allinfo return
 	 */
-	public function __construct($server, $name) {
+	public function __construct($server, $name, $parseTimeFormat = null) {
 		parent::__construct();
 		$this->server = $server;
 		$this->name = $name;
-		$this->parser = new Parser(new TimeZoneProvider($this->server->getHost()));
+		$this->parser = new Parser(new TimeZoneProvider($this->server->getHost()), $parseTimeFormat);
 	}
 
 	/**
