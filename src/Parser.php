@@ -126,8 +126,9 @@ class Parser {
 	{
 		if ( !empty( $this->parseTimeFormat ) ) {
 			$return = date_create_from_format($this->parseTimeFormat, $value );
-			if ( $return !== false ) {
-				return $return;
+
+			if ( $return instanceof \DateTime ) {
+				return $return->getTimestamp();
 			}
 		}
 
